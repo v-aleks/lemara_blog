@@ -62,7 +62,7 @@ func main() {
     // Protected routes (with auth middleware)
     protected := http.NewServeMux()
     protected.HandleFunc("GET /api/users/me", userHandler.GetProfile)
-    protected.HandleFunc("PUT /api/users/me", userHandler.UpdateProfile) // Остановился тут. Нужно реализовать изменение профиля
+    protected.HandleFunc("PUT /api/users/me", userHandler.UpdateProfile)
     protected.HandleFunc("DELETE /api/users/me", userHandler.DeleteProfile)
 
     // Вот тут важно подключить защищенные роуты к mux

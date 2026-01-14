@@ -101,6 +101,8 @@ func (s *authService) Login(ctx context.Context, req *domain.LoginRequest) (*dom
         User: domain.UserResponse{
             ID:        user.ID,
             Email:     user.Email,
+            FirstName: user.FirstName,
+            LastName:  user.LastName,
             CreatedAt: user.CreatedAt,
         },
     }, nil

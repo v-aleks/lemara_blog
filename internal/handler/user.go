@@ -37,6 +37,8 @@ func (h *UserHandler) GetProfile(w http.ResponseWriter, r *http.Request) {
     response := domain.UserResponse{
         ID:        user.ID,
         Email:     user.Email,
+        FirstName: user.FirstName,
+        LastName:  user.LastName,
         CreatedAt: user.CreatedAt,
     }
 
@@ -90,13 +92,21 @@ func (h *UserHandler) UpdateProfile(w http.ResponseWriter, r *http.Request) {
         user.PasswordHash = *updateReq.Password
     }
 
+    if updateReq.FirstName != nil && *updateReq.FirstName != "" {
+        user.FirstName = *updateReq.FirstName
+    }
+
+    if updateReq.LastName != nil && *updateReq.LastName != "" {
+        user.LastName = *updateReq.LastName
+    }
+
     if err := h.userRepo.Update(r.Context(), user); err != nil {
         http.Error(w, "Failed to update user", http.StatusInternalServerError)
         return
     }
 
     w.WriteHeader(http.StatusOK)
-    json.NewEncoder(w).Encode(map[string]string{"message": "Profile updated successfully"})
+    json.NewEncoder(w).Encode(map[string]string{"message": user.FirstName + " " + user.LastName})
 }
 
 func (h *UserHandler) DeleteProfile(w http.ResponseWriter, r *http.Request) {
