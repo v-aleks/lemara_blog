@@ -38,6 +38,7 @@ func main() {
 
     // Initialize repositories
     userRepo := repository.NewUserRepository(dbPool)
+    postRepo := repository.NewPostRepository(dbPool)
 
     // Initialize services
     authService := service.NewAuthService(userRepo, &config.Config{
@@ -45,10 +46,12 @@ func main() {
         JWTExpiration: cfg.JWTExpiration,
         BcryptCost:    cfg.BcryptCost,
     })
+    postService := service.NewPostService(postRepo)
 
     // Initialize handlers
     authHandler := handler.NewAuthHandler(authService)
     userHandler := handler.NewUserHandler(userRepo)
+    postHandler := handler.NewPostHandler(*postService)
     healthHandler := handler.NewHealthHandler(dbPool)
 
     // Setup router
@@ -64,6 +67,9 @@ func main() {
     protected.HandleFunc("GET /api/users/me", userHandler.GetProfile)
     protected.HandleFunc("PUT /api/users/me", userHandler.UpdateProfile)
     protected.HandleFunc("DELETE /api/users/me", userHandler.DeleteProfile)
+    // Посты
+    protected.HandleFunc("POST /api/posts", postHandler.CreatePost)
+
 
     // Вот тут важно подключить защищенные роуты к mux
     mux.Handle("/api/", handler.AuthMiddleware(cfg.JWTSecret)(protected))
