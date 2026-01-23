@@ -38,3 +38,12 @@ func (s *PostService) CreatePost(ctx context.Context, req *domain.PostCreateRequ
     }
 	return &post, err
 }
+
+// Метод для получения статьи по ID
+func (s *PostService) GetPostByID(ctx context.Context, id uuid.UUID) (*domain.PostSearchResponse, error) {
+	post, err := s.repo.GetByID(ctx, id)
+	if err != nil {
+        return nil, err
+    }
+	return &post, err
+}

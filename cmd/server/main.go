@@ -69,7 +69,7 @@ func main() {
     protected.HandleFunc("DELETE /api/users/me", userHandler.DeleteProfile)
     // Посты
     protected.HandleFunc("POST /api/posts", postHandler.CreatePost)
-
+    protected.HandleFunc("GET /api/posts/{id}", postHandler.GetPost)
 
     // Вот тут важно подключить защищенные роуты к mux
     mux.Handle("/api/", handler.AuthMiddleware(cfg.JWTSecret)(protected))

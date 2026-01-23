@@ -25,6 +25,15 @@ type PostCreateRequest struct {
 	Tags      	[]string 		`json:"tags"`
 }
 
+type PostSearchResponse struct {
+	ID        	uuid.UUID 		`json:"id"`
+	Title     	string 			`json:"title"`
+	Content   	string 			`json:"content"`
+	Author    	UserResponse 	`json:"author"`
+	CreatedAt 	time.Time 		`json:"created_at"`
+	UpdatedAt 	time.Time 		`json:"updated_at"`
+	Tags      	[]Tag 			`json:"tags"`
+}
 
 type Tag struct {
 	ID   	uuid.UUID 		`json:"id"`
