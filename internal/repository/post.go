@@ -53,7 +53,10 @@ func (r *postRepository) GetByID(ctx context.Context, id uuid.UUID) (domain.Post
 					posts.id,
 					posts.title,
 					posts.content,
-					users.id AS author_id, users.email as author_email, users.first_name as author_first_name, users.last_name as author_last_name,
+					users.id AS author_id,
+					users.email AS author_email,
+					users.first_name AS author_first_name,
+					users.last_name AS author_last_name,
 					posts.created_at, posts.updated_at
 				FROM posts
 				JOIN users ON posts.author = users.id
